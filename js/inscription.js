@@ -67,6 +67,22 @@ $(function (){
         },
         submitHandler: function(form){
             console.log("formulaire envoyé");
+
+            var news_letter = 0;
+            if($("#new_letter").is(":checked")){
+                news_letter = 1;
+            }
+
+            $.post(
+                "./json/inscription.json.php",
+                {
+                    nom_per:$("#nom_per").val(),
+                    prenom_per:$("#prenom_per").val(),
+                    email_per:$("#email_per").val(),
+                    password:$("#password_conf").val(),
+                    news_letter_per:news_letter,
+                }
+            );
             }
         }
     );
