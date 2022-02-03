@@ -74,7 +74,7 @@ $(function (){
             }
 
             $.post(
-                "./json/inscription.json.php",
+                "./json/inscription.json.php?_="+Date.now(),
                 {
                     nom_per:$("#nom_per").val(),
                     prenom_per:$("#prenom_per").val(),
