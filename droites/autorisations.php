@@ -2,6 +2,7 @@
 require "../config/config.inc.php";
 require WAY . "/include/head.inc.php";
 ?>
+<script src="./js/autorisations.js"></script>
 <div class="row">
     <div class="header">
         <h3>Autorisations</h3>
@@ -13,7 +14,7 @@ require WAY . "/include/head.inc.php";
     </div>
 
 <div class="panel-body">
-    <form id="inscription_form" action="./json/add_autorisations.json.php" method="post">
+    <form id="inscription_form" method="post">
         <!--Nom-->
         <div class="form-group row">
             <label for="nom_aut" class="col-sm-2 col-form-label">

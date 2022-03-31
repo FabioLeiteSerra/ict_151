@@ -2,67 +2,46 @@ $(function (){
     $("#inscription_form").validate({
         rules: {
 
-            nom_fonc: {
+            nom_fnc: {
                 required: true,
                 minlength: 2
 
             },
-            prenom_per: {
+            abr_fnc: {
+                required: true,
+                maxlength: 4
+
+            },
+            desc_fnc: {
                 required: true,
                 minlength: 2
 
             },
-            email_per: {
-                required: true,
-                email: true
-
-            },
-            password_conf: {
-                required: true,
-                equalTo:"#password"
-
-            },
-            password: {
-                required: true,
-                PWCHECK: true
-
-            }
         },
         messages: {
-            nom_per: {
+            nom_fnc: {
                 required: "Ce champ est requis",
                 minlength: "Le nom doit comporter au minimum 2 caractères"
             },
-            prenom_per: {
+            abr_fnc: {
+                required: "Ce champ est requis",
+                mixlength: "Le nom doit comporter au maximum 4 caractères"
+            },
+            desc_fnc: {
                 required: "Ce champ est requis",
                 minlength: "Le nom doit comporter au minimum 2 caractères"
             },
-            email_per: {
-                required: "Ce champ est requis",
-                email: "Votre adresse doit correspondre au format d'adresse"
-            },
-            password: {
-                required: "Ce champ est requis",
-                PWCHECK: "mot de passe non-conventionnel"
-
-            },
-            password_conf: {
-                equalTo: "Mots de passe non-identique",
-                required: "Veuillez saisir le mot de passe ue seconde fois"
-            }
         },
         submitHandler: function(form){
             console.log("formulaire envoyé");
 
 
         $.post(
-            "./json/inscription.json.php?_="+Date.now(),
+            "./json/add_fonction.json.php?_="+Date.now(),
             {
-                nom_per:$("#nom_per").val(),
-                prenom_per:$("#prenom_per").val(),
-                email_per:$("#email_per").val(),
-                password:$("#password_conf").val(),
-                news_letter_per:news_letter,
+                nom_fnc:$("#nom_fnc").val(),
+                abr_fnc:$("#abr_fnc").val(),
+                desc_fnc:$("#desc_fnc").val(),
             },
             function result(data,status){
                 $("#alert .message").html(data.messages.texte);
