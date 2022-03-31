@@ -1,56 +1,27 @@
 <?php
-Class Personne{
+Class Personne EXTENDS Projet {
 
-    private $id;
+    private $id_per;
     private $nom;
     private $prenom;
     private $email;
     private $password;
     //private $sel;
     private $news_letter;
-    private $pdo;
 
 
 
-    public function __construct($id = null){
-        $this->pdo = new PDO('mysql:dbname='. BASE_NAME. ';
-                                    host='.SQL_HOST,
-                                    SQL_USER,
-                                    SQL_PASSWORD,
-                                    array(
-                                        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-                                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-                                    )
-                            );
-        if($id){
-            $this->set_id($id);
-            $this->init();
-        }
+    public function __construct($id_per = null){
+
+        parent::__construct();
+
+            if($id_per){
+                $this->set_id_per($id_per);
+                $this->init();
+            }
     }
 
-    public function init(){
-        try {
-            $query = "SELECT * FROM t_personnes WHERE id_per=:id_per";
-            $stmt = $this->pdo->prepare($query);
-            $args = array();
 
-            $args[':id_per'] = $this->get_id();
-
-            $stmt->execute($args);
-
-            $tab = $stmt->fetch();
-            $this->set_nom($tab['nom_per']);
-            $this->set_prenom($tab['prenom_per']);
-            $this->set_email($tab['email_per']);
-            $this->set_password($tab['password_per']);
-            $this->set_news_letter($tab['news_letter_per']);
-            return true;
-        }catch (
-        Exception $e
-        ) {
-            return false;
-        }
-    }
 
     public function check_email($email){
     try {
@@ -160,14 +131,17 @@ Class Personne{
     }
 
     public function __toString(){
-        $str = "<pre>";
-        $str .= "\nid = ".$this->get_id();
-        $str .= "\nnom = ".$this->get_nom();
-        $str .= "\nprenom = ".$this->get_prenom();
-        $str .= "\nemail = ".$this->get_email();
-        $str .= "\npassword = ".$this->get_password();
-        $str .= "\nnews_letter = ".$this->get_news_letter();
-        $str .= "</pre>";
+        $str = "\n<pre>\n";
+        foreach($this AS $key => $val){
+            if($key != "pdo"){
+                $str .= "\t".$key;
+                for($i=strlen($key);$i<20;$i++){
+                    $str .= "&nbsp;";
+                }
+                $str .= "&nbsp;&nbsp;&nbsp;".$val."\n";
+            }
+        }
+        $str .= "\n</pre>";
         return $str;
     }
 
@@ -184,19 +158,19 @@ Class Personne{
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $id_per
      */
-    public function set_id($id)
+    public function set_id_per($id_per)
     {
-        $this->id = $id;
+        $this->id = $id_per;
     }
 
     /**
      * @return mixed
      */
-    public function get_id()
+    public function get_id_per()
     {
-        return $this->id;
+        return $this->id_per;
     }
 
     /**
