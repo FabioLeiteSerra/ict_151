@@ -1,3 +1,16 @@
 #alert{
     display:none;
 }
+
+#loading{
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    background: #9d9d9d;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    opacity: .8;
+}

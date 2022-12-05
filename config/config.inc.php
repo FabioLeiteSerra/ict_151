@@ -6,12 +6,12 @@ error_reporting(E_ALL);
 
 //echo getcwd();
 
-define("WAY","C:/xampp/htdocs/151");
-define("ROOT","http://localhost/151");
+define("WAY","C:/wamp64/www/151_projet_FAL");
+define("ROOT","http://localhost/151_projet_FAL");
 
-define("BASE_NAME","ict 151");
+define("BASE_NAME","ict_151");
 define("SQL_HOST","localhost");
 define("SQL_USER","root");
-define("SQL_PASSWORD","");
+define("SQL_PASSWORD","123456");
 
 ?>

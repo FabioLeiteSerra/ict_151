@@ -20,7 +20,7 @@ $per = new Personne(1);
 
 echo $per;
 
-$per->check_login("rasmus.lerdorf@php.com", 'Passw0rd');
+$per->check_login("fabio.leiteserra@ceff.ch", 'Passw0rd');
 
 print_r($_SESSION);
 

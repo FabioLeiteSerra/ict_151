@@ -53,4 +53,37 @@ $(function (){
     }
     }
 );
+    $(".fnc_per").click(function(){
+        $("#loading").css("display", "block");
+        id_per = $(this).attr("id_per");
+        id_fnc = $(this).attr("id_fnc");
+        if($(this).is(":checked")){
+            checked = 1;
+        }else{
+            checked = 0;
+        }
+        $.post(
+            "./json/add_del_fnc_per.json.php?_="+Date.now(),
+            {
+                id_per:id_per,
+                id_fnc:id_fnc,
+                checked:checked
+            },
+            function result(data,status){
+                $("#alert .message").html(data.messages.text);
+                $("#alert").attr("class", "alert")
+                $("#alert").addClass("alert-" + data.messages.type);
+                $("#alert").css("display", "block");
+            }
+        ).always(function() {
+                $("#loading").css("display", "none");
+            }
+        );
+
+        if($(this).is(":checked")){
+            console.log("Activer fnc_per "+id_fnc+" "+id_per)
+        }else{
+            console.log("Désactiver fnc_per "+id_fnc+" "+id_per)
+        }
+    });
 });

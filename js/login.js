@@ -22,25 +22,25 @@ $(function () {
                 },
             },
             submitHandler: function (form) {
-                console.log("formulaire envoyé");
-
-                var news_letter = 0;
-                if ($("#new_letter").is(":checked")) {
-                    news_letter = 1;
-                }
-
                 $.post(
-                    "./json/inscription.json.php?_=" + Date.now(),
+                    "./json/login.json.php?_=" + Date.now(),
                     {
-                        nom_per: $("#nom_per").val(),
-                        prenom_per: $("#prenom_per").val(),
                         email_per: $("#email_per").val(),
-                        password: $("#password_conf").val(),
-                        news_letter_per: news_letter,
+                        password: $("#password").val()
                     },
+                    function result(data,status){
+                        $("#alert .message").html(data.messages.texte);
+                        $("#alert").attr("class", "alert")
+                        $("#alert").addClass("alert-" + data.messages.type);
+                        $("#alert").css("display", "block");
+                        if(data.reponses) {
+                            window.location.href = "index.php";
+                        }
+
+                    },
+                    'json'
                 );
             }
         }
     );
 });
-}

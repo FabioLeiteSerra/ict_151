@@ -16,6 +16,25 @@ Class Fonction EXTENDS Projet{
         }
     }
 
+    public function init()
+    {
+        try {
+            $query = "SELECT * FROM t_fonctions WHERE id_fnc= :id_fnc";
+            $stmt = $this->pdo->prepare($query);
+            $args = array();
+            $args[':id_fnc'] = $this->get_id_fnc();
+            $stmt->execute($args);
+            $tab = $stmt->fetch();
+            $this->set_nom($tab['nom_fnc']);
+            $this->set_abr($tab['abr_fnc']);
+            $this->set_desc($tab['desc_fnc']);
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+
     public function check_abr($abr)
     {
         try {
@@ -34,6 +53,27 @@ Class Fonction EXTENDS Projet{
             return false;
         }
     }
+
+//    public function get_tab_per_all_fnc(){
+//        try{
+//            $query = "SELECT * FROM t_fnc_per ORDER BY id_fnc";
+//            $stmt = $this->pdo->prepare($query);
+//            if($stmt->execute()){
+//                $tab = $stmt->fetchall();
+//                $tab_fnc_per = array();
+//                foreach ($tab as $row){
+//                    $tab_fnc_per[$row['id_fnc']][] = $row['id_per'];
+//                }
+//                return $tab_fnc_per;
+//            }else{
+//                return false;
+//            }
+//
+//        }catch (Exception $e){
+//            //echo 'Exception reçue : ' . $e->getMessage(), "\n";
+//            return false;
+//        }
+//}
 
     public function add($tab){
 
@@ -58,6 +98,43 @@ Class Fonction EXTENDS Projet{
             return false;
         }
     }
+
+    public function get_all($order = "nom_fnc"){
+        try{
+            $query = "SELECT * FROM t_fonctions ORDER BY " . $order;
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        }catch (Exception $e){
+            echo 'Exception reçue : ' . $e->getMessage(), "\n";
+            return false;
+        }
+    }
+
+    public function get_tab_per_all_fnc(){
+        try{
+            $query = "SELECT * FROM t_fnc_per ORDER BY id_fnc";
+            $stmt = $this->pdo->prepare($query);
+            if($stmt->execute()) {
+                $tab = $stmt->fetchAll();
+                $tab_fnc_per = array();
+                foreach ($tab as $row) {
+                    $tab_fnc_per[$row['id_fnc']][] = $row['id_per'];
+                }
+                return $tab_fnc_per;
+            }else{
+                return false;
+            }
+        }catch(Exception $e){
+            // echo 'Exception reçue : ', $e->getMessage(), "\n";
+            return false;
+        }
+    }
+
+
 
     /**
      * @return mixed

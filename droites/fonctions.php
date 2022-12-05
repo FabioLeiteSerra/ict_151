@@ -1,5 +1,6 @@
 <?php
 require "../config/config.inc.php";
+require (WAY.'/include/secure.inc.php');
 require WAY . "/include/head.inc.php";
 ?>
 <script src="./js/fonction.js"></script>

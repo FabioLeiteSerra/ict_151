@@ -2,7 +2,7 @@
 require "./config/config.inc.php";
 require WAY . "/include/head.inc.php";
 ?>
-<script src="./js/inscription.js"></script>
+<script src="./js/login.js"></script>
 <div class="row">
     <div class="header">
         <h3>Inscription</h3>

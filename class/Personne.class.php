@@ -1,5 +1,6 @@
 <?php
-Class Personne EXTENDS Projet {
+Class Personne EXTENDS Projet
+{
 
     private $id_per;
     private $nom;
@@ -10,40 +11,64 @@ Class Personne EXTENDS Projet {
     private $news_letter;
 
 
-
-    public function __construct($id_per = null){
+    public function __construct($id_per = null)
+    {
 
         parent::__construct();
 
-            if($id_per){
-                $this->set_id_per($id_per);
-                $this->init();
-            }
+        if ($id_per) {
+            $this->set_id($id_per);
+            $this->init();
+        }
     }
 
+    public function init(){
+        try {
+            $query = "SELECT * FROM t_personnes WHERE id_per=:id_per";
+            $stmt = $this->pdo->prepare($query);
+            $args = array();
 
+            $args[':id_per'] = $this->get_id();
 
-    public function check_email($email){
-    try {
-        $query = "SELECT * FROM t_personnes WHERE email_per= :email LIMIT 1";
-        $stmt = $this->pdo->prepare($query);
-        $args = array();
-        $args[':email'] = $email;
-        $stmt->execute($args);
+            $stmt->execute($args);
 
-        $tab = $stmt->fetch();
-        if($stmt->rowCount()){
+            $tab = $stmt->fetch();
+            $this->set_nom($tab['nom_per']);
+            $this->set_prenom($tab['prenom_per']);
+            $this->set_email($tab['email_per']);
+            $this->set_password($tab['password_per']);
+            $this->set_news_letter($tab['news_letter_per']);
             return true;
-        }
-        else{
+        }catch (
+        Exception $e
+        ) {
             return false;
         }
-    }catch (
+    }
+
+
+    public function check_email($email)
+    {
+        try {
+            $query = "SELECT * FROM t_personnes WHERE email_per= :email LIMIT 1";
+            $stmt = $this->pdo->prepare($query);
+            $args = array();
+            $args[':email'] = $email;
+            $stmt->execute($args);
+
+            $tab = $stmt->fetch();
+            if ($stmt->rowCount()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (
         Exception $e
-    ) {
-        return false;
+        ) {
+            return false;
+        }
     }
-    }
+
 
     public function add($tab){
         $this->gen_password($tab['password']);
@@ -90,10 +115,10 @@ Class Personne EXTENDS Projet {
                     $_user_browswer_ip = $_SERVER['HTTP_USER_AGENT'].$_SERVER['REMOTE_ADDR'];
                     $_SESSION['login_string'] = password_hash($tab['password_per'].$_user_browswer_ip, PASSWORD_DEFAULT);
                     $_SESSION['email'] = $tab['email_per'];
-                    echo "ok";
+                    return true;
                 }
                 else {
-                    echo "ko";
+                    return false;
                 }
             }
             else{
@@ -113,12 +138,13 @@ Class Personne EXTENDS Projet {
                 return true;
             }
             else{
-                return false;
+//                return false;
             }
         }
         else{
-            return false;
+//            return false;
         }
+        return true;
     }
 
 
@@ -128,6 +154,89 @@ Class Personne EXTENDS Projet {
      */
     public function gen_password($password){
         $this->set_password(password_hash($password, PASSWORD_DEFAULT));
+    }
+
+    public function get_all($order = "nom_per, prenom_per"){
+        try{
+            $query = "SELECT * FROM t_personnes ORDER BY " . $order;
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        }catch (Exception $e){
+            echo 'Exception reçue : ' . $e->getMessage(), "\n";
+            return false;
+        }
+    }
+
+    public function add_fnc($id_fnc){
+        try{
+            $args = array();
+            $args['id_fnc'] = $id_fnc;
+            $args['id_per'] = $this->get_id();
+            $query = "INSERT INTO t_fnc_per SET 
+                id_fnc = :id_fnc,
+                id_per = :id_per";
+            $stmt = $this->pdo->prepare($query);
+            return $stmt->execute($args);
+
+        }catch (Exception $e){
+            echo 'Exception reçue : ' . $e->getMessage(), "\n";
+            return false;
+        }
+    }
+
+    public function del_fnc($id_fnc){
+        try{
+            $args = array();
+            $args['id_fnc'] = $id_fnc;
+            $args['id_per'] = $this->get_id();
+
+            $query = "DELETE FROM t_fnc_per WHERE 
+                id_fnc = :id_fnc
+                AND
+                id_per = :id_per";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($args);
+        }catch (Exception $e){
+            echo 'Exception reçue : ' . $e->getMessage(), "\n";
+            return false;
+        }
+    }
+
+    public function get_all_aut(){
+        try{
+            $query = "SELECT DISTINCT ta.code_aut FROM 
+                            t_fnc_per AS tfp
+                            JOIN t_aut_fnc taf on tfp.id_fnc = taf.id_fnc
+                            JOIN t_autorisations ta on taf.id_aut = ta.id_aut
+                            WHERE tfp.id_per = :id_per;";
+
+            $args = array();
+            $args['id_per'] = $this->get_id();
+
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute($args);
+
+            $tab = $stmt->fetchAll();
+
+            $tab_aut = array();
+
+            foreach($tab as $aut) {
+                $tab_aut[] = $aut['code_aut'];
+            }
+            return $tab_aut;
+        }catch (Exception $e){
+            echo 'Exception reçue : ' . $e->getMessage(), "\n";
+            return false;
+        }
+    }
+
+    public function check_aut($aut){
+        $tab_aut = $this->get_all_aut();
+        return in_array($aut, $tab_aut);
     }
 
     public function __toString(){
@@ -143,6 +252,14 @@ Class Personne EXTENDS Projet {
         }
         $str .= "\n</pre>";
         return $str;
+    }
+
+    public function set_id($id){
+        $this->id_per = $id;
+    }
+
+    public function get_id(){
+        return $this->id_per;
     }
 
     /**

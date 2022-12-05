@@ -20,6 +20,14 @@
 <body>
 
 <div class="container">
+    <div>
+<!--        <img src="--><?//=ROOT?><!--/images/loading.gif">-->
+    </div>
+    <?php
+        if(isset($_SESSION['id'])){
+            $per = new Personne($_SESSION['id']);
+            if($per->check_connect()){
+    ?>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -44,8 +52,13 @@
             </div>
         </div>
     </nav>
+    <?php
+            }
+        }
+    ?>
     <!-- boîte pour message d'alertes -->
     <div class="alert" id="alert">
         <a href="#" class="close" data-dismiss="alert">&times;</a>
         <b class="bold"></b><span class="message"></span>
     </div>
+
