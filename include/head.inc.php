@@ -45,6 +45,13 @@
                             <li><a href="<?= ROOT ?>/droites/autorisations.php">Autorisations</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Droites d'accès<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="<?= ROOT ?>/droites/attribution_fnc_per.php">Consomateurs</a></li>
+                            <li><a href="<?= ROOT ?>/energie/compteurs.php">Compteurs</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="<?= ROOT ?>/logout.php">Déconnection</a></li>
