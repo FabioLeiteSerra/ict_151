@@ -21,7 +21,7 @@
 
 <div class="container">
     <div>
-<!--        <img src="--><?//=ROOT?><!--/images/loading.gif">-->
+        <img id="loading" src="<?=ROOT?>/images/loading.gif">
     </div>
     <?php
         if(isset($_SESSION['id'])){

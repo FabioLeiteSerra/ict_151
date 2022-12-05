@@ -1,5 +1,7 @@
 <?php
+session_start();
 require "../config/config.inc.php";
+$autorisation = "FNC_ADM";
 require (WAY.'/include/secure.inc.php');
 require WAY . "/include/head.inc.php";
 ?>

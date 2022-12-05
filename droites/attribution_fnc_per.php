@@ -3,7 +3,7 @@
 session_start();
 require("../config/config.inc.php");
 //require(WAY . "/include/autoload.inc.php");
-$autorisation = "ADM_AAA";
+$autorisation = "FNC_ADM";
 require (WAY.'/include/secure.inc.php');
 require_once(WAY . "/include/head.inc.php");
 ?>

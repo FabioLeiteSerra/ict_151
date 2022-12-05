@@ -6,8 +6,8 @@ error_reporting(E_ALL);
 
 //echo getcwd();
 
-define("WAY","C:/wamp64/www/151_projet_FAL");
-define("ROOT","http://localhost/151_projet_FAL");
+define("WAY","C:/wamp64/www/ict_151");
+define("ROOT","http://localhost/ict_151");
 
 define("BASE_NAME","ict_151");
 define("SQL_HOST","localhost");
